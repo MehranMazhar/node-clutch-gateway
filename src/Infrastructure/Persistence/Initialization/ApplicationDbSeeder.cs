@@ -60,6 +60,10 @@ internal class ApplicationDbSeeder
                     await AssignPermissionsToRoleAsync(dbContext, FSHPermissions.Root, role);
                 }
             }
+            else if (roleName == FSHRoles.Passenger)
+            {
+                await AssignPermissionsToRoleAsync(dbContext, FSHPermissions.Passenger, role);
+            }
         }
     }
 

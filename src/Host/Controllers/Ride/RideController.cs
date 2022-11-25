@@ -1,11 +1,11 @@
-﻿using MediatR;
-using NodeClutchGateway.Application.Ride.Reuqest;
+﻿using NodeClutchGateway.Application.Ride.Reuqest;
 
 namespace NodeClutchGateway.Host.Controllers.Ride;
 
 public class RideController : VersionNeutralApiController
 {
     [HttpPost]
+    [MustHavePermission(FSHAction.Create, FSHResource.RideRequests)]
     [OpenApiOperation("Create a ride request by passenger.", "")]
     public async Task<RideResponse> RideRequest(RideRequest request)
     {
@@ -13,11 +13,4 @@ public class RideController : VersionNeutralApiController
     }
 }
 
-public class RideRequestHandler : IRequestHandler<RideRequest, RideResponse>
-{
 
-    public async Task<RideResponse> Handle(RideRequest request, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-}

@@ -23,3 +23,12 @@ public class RideRequestValidator : CustomValidator<RideRequest>
        .NotEmpty();
     }
 }
+
+public class RideRequestHandler : IRequestHandler<RideRequest, RideResponse>
+{
+
+    public async Task<RideResponse> Handle(RideRequest request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+}
