@@ -1,0 +1,1 @@
+﻿global using NodeClutchGateway.Domain.Common.Contracts;

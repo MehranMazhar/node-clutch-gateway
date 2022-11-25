@@ -1,0 +1,17 @@
+global using Ardalis.Specification;
+global using FluentValidation;
+global using NodeClutchGateway.Application.Common.Events;
+global using NodeClutchGateway.Application.Common.Exceptions;
+global using NodeClutchGateway.Application.Common.FileStorage;
+global using NodeClutchGateway.Application.Common.Interfaces;
+global using NodeClutchGateway.Application.Common.Models;
+global using NodeClutchGateway.Application.Common.Persistence;
+global using NodeClutchGateway.Application.Common.Specification;
+global using NodeClutchGateway.Application.Common.Validation;
+global using NodeClutchGateway.Domain.Catalog;
+global using NodeClutchGateway.Domain.Common;
+global using NodeClutchGateway.Domain.Common.Contracts;
+global using NodeClutchGateway.Shared.Notifications;
+global using MediatR;
+global using Microsoft.Extensions.Localization;
+global using Microsoft.Extensions.Logging;
