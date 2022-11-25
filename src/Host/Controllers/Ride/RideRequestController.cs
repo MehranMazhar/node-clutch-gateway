@@ -2,7 +2,7 @@
 
 namespace NodeClutchGateway.Host.Controllers.Ride;
 
-public class RideController : VersionNeutralApiController
+public class RideRequestController : VersionNeutralApiController
 {
     [HttpPost]
     [MustHavePermission(FSHAction.Create, FSHResource.RideRequests)]
