@@ -26,7 +26,6 @@ public static class FSHResource
     public const string RoleClaims = nameof(RoleClaims);
     public const string Products = nameof(Products);
     public const string Brands = nameof(Brands);
-
     public const string RideRequests = nameof(RideRequests);
 }
 
