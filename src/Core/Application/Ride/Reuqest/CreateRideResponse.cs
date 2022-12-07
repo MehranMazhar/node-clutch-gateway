@@ -5,6 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NodeClutchGateway.Application.Ride.Reuqest;
-public class RideResponse
+public class CreateRideResponse
 {
 }
