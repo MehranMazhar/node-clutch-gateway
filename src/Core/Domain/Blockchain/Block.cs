@@ -7,11 +7,17 @@ public class Block : AuditableEntity, IAggregateRoot
 {
     public string PreviousHash { get; private set; }
     public string Hash { get; private set; }
+    public List<Transaction> Transactions { get; private set; }
 
-    public Block(string previousHash)
+    public Block(List<Transaction> transactions)
     {
-        PreviousHash = previousHash;        
+        Transactions = transactions;
         Hash = CreateHash();
+    }
+
+    public Block()
+    {
+
     }
 
     public string CreateHash()
