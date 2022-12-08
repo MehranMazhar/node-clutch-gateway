@@ -5,6 +5,7 @@ using NodeClutchGateway.Domain.Catalog;
 using NodeClutchGateway.Infrastructure.Persistence.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using NodeClutchGateway.Domain.Blockchain;
 
 namespace NodeClutchGateway.Infrastructure.Persistence.Context;
 
@@ -17,6 +18,8 @@ public class ApplicationDbContext : BaseDbContext
 
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Brand> Brands => Set<Brand>();
+    public DbSet<Block> Blocks => Set<Block>();
+    public DbSet<Transaction> Transactions => Set<Transaction>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
