@@ -1,4 +1,4 @@
-﻿using NodeClutchGateway.Application.RideReuqest;
+﻿using NodeClutchGateway.Application.Clutch.RideReuqest;
 
 namespace NodeClutchGateway.Host.Controllers.Ride;
 

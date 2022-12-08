@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NodeClutchGateway.Application.RideReuqest;
+namespace NodeClutchGateway.Application.Clutch.RideReuqest;
 public class CreateRideResponse
 {
 }
