@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NodeClutchGateway.Application.Blockchain;
+using NodeClutchGateway.Domain.Blockchain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,7 @@ public class CreateRideRequest : IRequest<CreateRideResponse>
 {
     public double SourceLocation { get; set; }
     public double DestinationLocation { get; set; }
+    public double Fare { get; set; }
     public int ExpireInMintue { get; set; }
 }
 
@@ -29,9 +32,22 @@ public class CreateRideRequestValidator : CustomValidator<CreateRideRequest>
 
 public class RideRequestHandler : IRequestHandler<CreateRideRequest, CreateRideResponse>
 {
+    private readonly IBlockchainService _blockchainService;
 
-    public async Task<CreateRideResponse> Handle(CreateRideRequest request, CancellationToken cancellationToken)
+    public RideRequestHandler(IBlockchainService blockchainService)
     {
-        throw new NotImplementedException();
+        _blockchainService = blockchainService;
+    }
+
+    public Task<CreateRideResponse> Handle(CreateRideRequest request, CancellationToken cancellationToken)
+    {
+        _blockchainService.AddRideRequest(request.SourceLocation, request.DestinationLocation, request.Fare, request.ExpireInMintue);
+
+        var rs = new CreateRideResponse()
+        {
+            Success = true,
+        };
+
+        return Task.FromResult(rs);
     }
 }

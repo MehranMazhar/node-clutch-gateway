@@ -7,10 +7,11 @@ public class Block : AuditableEntity, IAggregateRoot
 {
     public string PreviousHash { get; private set; }
     public string Hash { get; private set; }
-    public List<Transaction> Transactions { get; private set; }
+    public ICollection<Transaction> Transactions { get; private set; }
 
-    public Block(List<Transaction> transactions)
+    public Block(string previousHash, List<Transaction> transactions)
     {
+        PreviousHash = previousHash;
         Transactions = transactions;
         Hash = CreateHash();
     }
@@ -20,7 +21,7 @@ public class Block : AuditableEntity, IAggregateRoot
 
     }
 
-    public string CreateHash()
+    private string CreateHash()
     {
         using (SHA256 sha256 = SHA256.Create())
         {

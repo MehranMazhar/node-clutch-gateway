@@ -8,12 +8,24 @@ public class Transaction : AuditableEntity, IAggregateRoot
     public double Amount { get; set; }
     public Guid BlockId { get; private set; }
     public virtual Block Block { get; private set; } = default!;
+    public virtual RideRequest RideRequest { get; private set; }
 
-    public Transaction(string from, string to, Guid blockId)
+    public Transaction(string from, string to, double amount)
     {
         From = from;
-        To = to;
-        BlockId = blockId;
+        To = to;        
+        Amount = amount;
+    }
+
+    public Transaction(string from, RideRequest rideRequest)
+    {
+        From = from;        
+        RideRequest = rideRequest;
+    }
+
+    public Transaction()
+    {
+
     }
 
 }

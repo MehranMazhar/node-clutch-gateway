@@ -14,6 +14,6 @@ public class CacheKeyService : ICacheKeyService
         string tenantId = includeTenantId
             ? _currentTenant?.Id ?? throw new InvalidOperationException("GetCacheKey: includeTenantId set to true and no ITenantInfo available.")
             : "GLOBAL";
-        return $"{tenantId}-{name}-{id}";
+        return $"{tenantId}:{name}:{id}";
     }
 }

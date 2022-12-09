@@ -1,7 +1,7 @@
 {
   "CacheSettings": {
-    "UseDistributedCache": false,
-    "PreferRedis": false,
+    "UseDistributedCache": true,
+    "PreferRedis": true,
     "RedisURL": "localhost:6379"
   }
 }

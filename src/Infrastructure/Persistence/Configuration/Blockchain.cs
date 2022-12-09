@@ -20,3 +20,12 @@ public class TransactionConfig : IEntityTypeConfiguration<Transaction>
             .ToTable("Transactions", SchemaNames.Blockchain);
     }
 }
+
+public class RideRequestConfig : IEntityTypeConfiguration<RideRequest>
+{
+    public void Configure(EntityTypeBuilder<RideRequest> builder)
+    {
+        builder
+            .ToTable("RideRequests", SchemaNames.Blockchain);
+    }
+}
