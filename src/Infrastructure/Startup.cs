@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NodeClutchGateway.Application.Common.Interfaces;
+using NodeClutchGateway.Infrastructure.RecurringJobs;
 
 namespace NodeClutchGateway.Infrastructure;
 
@@ -46,6 +48,7 @@ public static class Startup
             .AddPersistence(config)
             .AddRequestLogging(config)
             .AddRouting(options => options.LowercaseUrls = true)
+            .AddRecurringBackgroundJobs()
             .AddServices();
     }
 
@@ -67,6 +70,15 @@ public static class Startup
 
         await scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>()
             .InitializeDatabasesAsync(cancellationToken);
+    }
+
+    public static async Task InitializeRecurringJobsAsync(this IServiceProvider services, CancellationToken cancellationToken = default)
+    {
+        // Create a new scope to retrieve scoped services
+        using var scope = services.CreateScope();
+
+        await scope.ServiceProvider.GetRequiredService<IRecurringJobInitialization>()
+            .InitializeJobsForTenantAsync(cancellationToken);
     }
 
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, IConfiguration config) =>
