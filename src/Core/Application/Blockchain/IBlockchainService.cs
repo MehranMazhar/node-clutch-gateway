@@ -6,4 +6,5 @@ public interface IBlockchainService : ITransientService
 {
     void AddRideRequest(double sourceLocation, double destinationLocation, double fare, int expireInMintue);
     Task<RideRequestDto> GetRideRequestAsync();
+    void MineBlock(string minerAddress);
 }
