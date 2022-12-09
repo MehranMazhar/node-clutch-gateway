@@ -30,11 +30,11 @@ public class CreateRideRequestValidator : CustomValidator<CreateRideRequest>
     }
 }
 
-public class RideRequestHandler : IRequestHandler<CreateRideRequest, CreateRideResponse>
+public class CreateRideRequestHandler : IRequestHandler<CreateRideRequest, CreateRideResponse>
 {
     private readonly IBlockchainService _blockchainService;
 
-    public RideRequestHandler(IBlockchainService blockchainService)
+    public CreateRideRequestHandler(IBlockchainService blockchainService)
     {
         _blockchainService = blockchainService;
     }

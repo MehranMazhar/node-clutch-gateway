@@ -1,6 +1,8 @@
 ﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using NodeClutchGateway.Application.Blockchain;
+using NodeClutchGateway.Application.Clutch.RideReuqest;
 using NodeClutchGateway.Application.Common.Caching;
+using NodeClutchGateway.Application.Common.Exceptions;
 using NodeClutchGateway.Application.Common.Interfaces;
 using NodeClutchGateway.Domain.Blockchain;
 using NodeClutchGateway.Infrastructure.Auth;
@@ -30,6 +32,24 @@ public class BlockchainService : IBlockchainService
 
         string cacheKey = _cacheKeys.GetCacheKey("PendingTransaction:RideRequest", userId);
         _cache.Set(cacheKey, transaction, TimeSpan.FromMinutes(expireInMintue));
+    }
+
+    public async Task<RideRequestDto> GetRideRequestAsync()
+    {
+        var userId = _currentUser.GetUserId();
+        string cacheKey = _cacheKeys.GetCacheKey("PendingTransaction:RideRequest", userId);
+
+        var rideRequestTransaction = await _cache.GetAsync<Transaction>(cacheKey);
+        if (rideRequestTransaction == null)
+            throw new NotFoundException(string.Format("Not Found", userId));
+
+        return new RideRequestDto()
+        {
+            SourceLocation = rideRequestTransaction.RideRequest.SourceLocation,
+            DestinationLocation = rideRequestTransaction.RideRequest.DestinationLocation,
+            Fare = rideRequestTransaction.RideRequest.Fare,
+        };
+
     }
 
     public void MineBlock(string minerAddress)
