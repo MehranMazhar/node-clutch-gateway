@@ -12,7 +12,6 @@ public class RideRequestController : VersionNeutralApiController
         return await Mediator.Send(request);
     }
 
-
     [HttpGet]
     [MustHavePermission(FSHAction.Create, FSHResource.RideRequests)]
     [OpenApiOperation("Get pending current ride request by passenger", "")]
@@ -21,5 +20,3 @@ public class RideRequestController : VersionNeutralApiController
         return await Mediator.Send(new GetRideRequest());
     }
 }
-
-
