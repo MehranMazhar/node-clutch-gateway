@@ -51,7 +51,7 @@ public class HangfireRecurringJobInitialization : IRecurringJobInitialization
 
     public void InitializeRecurringJobs()
     {
-        _jobService.AddOrUpdate<IBlockchainService>("MineBlock", x => x.MineBlock("s"), () => Cron.MinuteInterval(1), TimeZoneInfo.Utc, "default");
+        _jobService.AddOrUpdate<IBlockchainService>("MineBlock", x => x.MineBlock("mehran"), () => "*/5 * * * * *", TimeZoneInfo.Utc, "default");
         _logger.LogInformation("All recurring jobs have been initialized.");
     }
 }

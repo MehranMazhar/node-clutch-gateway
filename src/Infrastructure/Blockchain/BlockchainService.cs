@@ -71,12 +71,17 @@ public class BlockchainService : IBlockchainService
         if (transactions.Count == 0)
             return;
 
-        var lastBlock = _context.Blocks.OrderBy(q => q.Id).LastOrDefault();
+        var lastBlock = GetLastBlock();
         if (lastBlock?.ParentBlockId == null)
             return;
 
         AddBlock(transactions, lastBlock);
         _cache.Remove(cacheKey);
+    }
+
+    private Block? GetLastBlock()
+    {
+        return _context.Blocks.OrderBy(q => q.Id).LastOrDefault();
     }
 
     private void AddBlock(List<Transaction> transactions, Block lastBlock)
