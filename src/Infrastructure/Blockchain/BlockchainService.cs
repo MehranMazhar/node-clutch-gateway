@@ -30,32 +30,46 @@ public class BlockchainService : IBlockchainService
         var rideRequest = new RideRequest(sourceLocation, destinationLocation, fare, DateTime.Now.AddMinutes(expireInMintue));
         var transaction = new Transaction(userId.ToString(), rideRequest);
 
-        string cacheKey = _cacheKeys.GetCacheKey("PendingTransaction:RideRequest", userId);
-        _cache.Set(cacheKey, transaction, TimeSpan.FromMinutes(expireInMintue));
+        string cacheKey = RideRequestsKey();
+
+        var transactions = _cache.Get<List<Transaction>>(cacheKey) ?? new List<Transaction>();
+        var tUser = transactions.FirstOrDefault(q => q.From == userId.ToString());
+        if (tUser != null)
+            return;
+
+        transactions.Add(transaction);
+        _cache.Set(cacheKey, transactions, TimeSpan.FromMinutes(expireInMintue));
     }
 
-    public async Task<RideRequestDto> GetRideRequestAsync()
+    private string RideRequestsKey()
+    {
+        return _cacheKeys.GetCacheKey("PendingTransaction", "RideRequests", includeTenantId: false);
+    }
+
+    public async Task<List<RideRequestDto>> GetRideRequestAsync()
     {
         var userId = _currentUser.GetUserId();
-        string cacheKey = _cacheKeys.GetCacheKey("PendingTransaction:RideRequest", userId);
+        string cacheKey = RideRequestsKey();
 
-        var rideRequestTransaction = await _cache.GetAsync<Transaction>(cacheKey);
-        if (rideRequestTransaction == null)
-            throw new NotFoundException(string.Format("Not Found", userId));
+        var rideRequests = await _cache.GetAsync<List<Transaction>>(cacheKey);
+        if (rideRequests == null)
+            throw new NotFoundException(string.Format("Ride Requests Not Found", userId));
 
-        return new RideRequestDto()
+        return rideRequests.Select(t => new RideRequestDto()
         {
-            SourceLocation = rideRequestTransaction.RideRequest.SourceLocation,
-            DestinationLocation = rideRequestTransaction.RideRequest.DestinationLocation,
-            Fare = rideRequestTransaction.RideRequest.Fare,
-        };
+            SourceLocation = t.RideRequest.SourceLocation,
+            DestinationLocation = t.RideRequest.DestinationLocation,
+            Fare = t.RideRequest.Fare,
+        }).ToList();
 
     }
 
     public void MineBlock(string minerAddress)
     {
-        //var block = new Block(_pendingTransactions);
+        string cacheKey = RideRequestsKey();
+        var transactions = _cache.Get<List<Transaction>>(cacheKey);
+        var block = new Block("",transactions);
         //_context.Add(block);
-        //_context.SaveChanges();        
+        //_context.SaveChanges();
     }
 }

@@ -3,11 +3,11 @@
 namespace NodeClutchGateway.Domain.Blockchain;
 public class Transaction : AuditableEntity, IAggregateRoot
 {
-    public string From { get; private set; }
-    public string To { get; private set; }
+    public string From { get;  set; }
+    public string To { get;  set; }
     public double Amount { get; set; }
-    public Guid BlockId { get; private set; }
-    public virtual Block Block { get; private set; } = default!;
+    public Guid BlockId { get;  set; }
+    public virtual Block Block { get;  set; } = default!;
     public virtual RideRequest RideRequest { get;  set; }
 
     public Transaction(string from, string to, double amount)

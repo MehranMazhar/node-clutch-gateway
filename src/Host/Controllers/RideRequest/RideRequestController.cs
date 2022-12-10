@@ -15,7 +15,7 @@ public class RideRequestController : VersionNeutralApiController
     [HttpGet]
     [MustHavePermission(FSHAction.Create, FSHResource.RideRequests)]
     [OpenApiOperation("Get pending current ride request by passenger", "")]
-    public async Task<RideRequestDto> GetRideRequest()
+    public async Task<List<RideRequestDto>> GetRideRequest()
     {
         return await Mediator.Send(new GetRideRequest());
     }

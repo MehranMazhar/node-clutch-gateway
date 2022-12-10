@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NodeClutchGateway.Application.Clutch.RideReuqest;
-public class GetRideRequest : IRequest<RideRequestDto>
+public class GetRideRequest : IRequest<List<RideRequestDto>>
 {
 }
 
-public class GetRideRequestHandle : IRequestHandler<GetRideRequest, RideRequestDto>
+public class GetRideRequestHandle : IRequestHandler<GetRideRequest, List<RideRequestDto>>
 {
     private readonly IBlockchainService _blockchainService;
 
@@ -19,7 +19,7 @@ public class GetRideRequestHandle : IRequestHandler<GetRideRequest, RideRequestD
         _blockchainService = blockchainService;
     }
 
-    public async Task<RideRequestDto> Handle(GetRideRequest request, CancellationToken cancellationToken)
+    public async Task<List<RideRequestDto>> Handle(GetRideRequest request, CancellationToken cancellationToken)
     {
         return await _blockchainService.GetRideRequestAsync();
 
