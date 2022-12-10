@@ -5,13 +5,14 @@ using System.Transactions;
 namespace NodeClutchGateway.Domain.Blockchain;
 public class Block : AuditableEntity, IAggregateRoot
 {
-    public string PreviousHash { get; private set; }
+    public Guid? ParentBlockId { get; private set; }
+    public virtual Block ParentBlock { get; set; }
     public string Hash { get; private set; }
     public ICollection<Transaction> Transactions { get; private set; }
 
-    public Block(string previousHash, List<Transaction> transactions)
+    public Block(Guid parentBlockId, List<Transaction> transactions)
     {
-        PreviousHash = previousHash;
+        ParentBlockId = parentBlockId;
         Transactions = transactions;
         Hash = CreateHash();
     }
@@ -25,7 +26,7 @@ public class Block : AuditableEntity, IAggregateRoot
     {
         using (SHA256 sha256 = SHA256.Create())
         {
-            string rawData = PreviousHash + CreatedOn;// + Transactions;
+            string rawData = ParentBlockId.ToString() + CreatedOn + Transactions;
             byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(rawData));
             return Encoding.Default.GetString(bytes);
         }

@@ -28,7 +28,7 @@ public class BlockchainService : IBlockchainService
     {
         var userId = _currentUser.GetUserId();
         var rideRequest = new RideRequest(sourceLocation, destinationLocation, fare, DateTime.Now.AddMinutes(expireInMintue));
-        var transaction = new Transaction(userId.ToString(), rideRequest);
+        var transaction = new Transaction(userId.ToString(), userId.ToString(), rideRequest);
 
         string cacheKey = RideRequestsKey();
 
@@ -67,9 +67,22 @@ public class BlockchainService : IBlockchainService
     public void MineBlock(string minerAddress)
     {
         string cacheKey = RideRequestsKey();
-        var transactions = _cache.Get<List<Transaction>>(cacheKey);
-        var block = new Block("",transactions);
-        //_context.Add(block);
-        //_context.SaveChanges();
+        var transactions = _cache.Get<List<Transaction>>(cacheKey) ?? new List<Transaction>();
+        if (transactions.Count == 0)
+            return;
+
+        var lastBlock = _context.Blocks.OrderBy(q => q.Id).LastOrDefault();
+        if (lastBlock?.ParentBlockId == null)
+            return;
+
+        AddBlock(transactions, lastBlock);
+        _cache.Remove(cacheKey);
+    }
+
+    private void AddBlock(List<Transaction> transactions, Block lastBlock)
+    {
+        var block = new Block(lastBlock.Id, transactions);
+        _context.Add(block);
+        _context.SaveChanges();
     }
 }

@@ -17,9 +17,10 @@ public class Transaction : AuditableEntity, IAggregateRoot
         Amount = amount;
     }
 
-    public Transaction(string from, RideRequest rideRequest)
+    public Transaction(string from,string to, RideRequest rideRequest)
     {
-        From = from;        
+        From = from;
+        To = to;
         RideRequest = rideRequest;
     }
 
