@@ -5,7 +5,7 @@ By Mehran Mazhar
 MohammadHossein ShafiAbadi, Ph.D. - Thesis Advisor
 
 -Current Ride-Share model
-![Current Ride-Share model](pictures-readme/current_ride_share_model.jpeg)
+![Current Ride-Share model](current_ride_share_model.jpeg)
 
 -Blockchain-based Ride-Share model
-![Blockchain-based Ride-Share model](pictures-readme/blockchain-based_rideshare.jpeg) 
+![Blockchain-based Ride-Share model](blockchain-based_rideshare.jpeg) 
