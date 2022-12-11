@@ -13,6 +13,7 @@ public class RideRequestController : VersionNeutralApiController
     }
 
     [HttpGet]
+    [AllowAnonymous]
     [OpenApiOperation("Get pending current ride request by passenger", "")]
     public async Task<List<RideRequestDto>> GetRideRequest()
     {

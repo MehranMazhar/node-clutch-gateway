@@ -54,12 +54,13 @@ public class BlockchainService : IBlockchainService
         if (rideRequests == null)
             throw new NotFoundException(string.Format("Ride Requests Not Found"));
 
-        return rideRequests.Select(t => new RideRequestDto()
+        return rideRequests.Select(r => new RideRequestDto()
         {
-            SourceLocation = t.SourceLocation,
-            DestinationLocation = t.DestinationLocation,
-            Fare = t.Fare,
-            ExpireOn = t.ExpireOn,
+            SourceLocation = r.SourceLocation,
+            DestinationLocation = r.DestinationLocation,
+            Fare = r.Fare,
+            ExpireOn = r.ExpireOn,
+            TransactionId = r.TransactionId,
         }).ToList();
 
     }

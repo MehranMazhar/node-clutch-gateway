@@ -11,4 +11,5 @@ public class RideRequestDto : IDto
     public double DestinationLocation { get; set; }
     public double Fare { get; set; }
     public DateTime ExpireOn { get; set; }
+    public Guid TransactionId { get; set; }
 }
