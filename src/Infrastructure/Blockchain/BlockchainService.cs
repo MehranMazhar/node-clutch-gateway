@@ -32,8 +32,7 @@ public class BlockchainService : IBlockchainService
         var rideRequest = new RideRequest(sourceLocation, destinationLocation, fare, DateTime.Now.AddMinutes(expireInMintue));
         var transaction = new Transaction(userId.ToString(), userId.ToString(), rideRequest);
 
-        string cacheKey = RideRequestsKey();
-
+        string cacheKey = TransactionCacheKey();
         var transactions = _cache.Get<List<Transaction>>(cacheKey) ?? new List<Transaction>();
         var tUser = transactions.FirstOrDefault(q => q.From == userId.ToString());
         if (tUser != null)
@@ -43,9 +42,20 @@ public class BlockchainService : IBlockchainService
         _cache.Set(cacheKey, transactions, TimeSpan.FromMinutes(expireInMintue));
     }
 
-    private string RideRequestsKey()
+    public void AddRideOffer(Guid rideRequestTransactionId, double fare, int expireInMintue)
     {
-        return _cacheKeys.GetCacheKey("PendingTransaction", "RideRequests", includeTenantId: false);
+        var rideRequest = GetRideRequest(rideRequestTransactionId);
+        if (rideRequest == null)
+            throw new NotFoundException(string.Format("Ride Requests Not Found"));
+
+        var userId = _currentUser.GetUserId();
+        var rideOffer = new RideOffer(fare, DateTime.Now.AddMinutes(expireInMintue));
+        var transaction = new Transaction(userId.ToString(), userId.ToString(), rideOffer);
+
+        string cacheKey = TransactionCacheKey();
+        var transactions = _cache.Get<List<Transaction>>(cacheKey) ?? new List<Transaction>();
+        transactions.Add(transaction);
+        _cache.Set(cacheKey, transactions, TimeSpan.FromMinutes(expireInMintue));
     }
 
     public List<RideRequestDto> GetRideRequest()
@@ -67,7 +77,7 @@ public class BlockchainService : IBlockchainService
 
     public void MineBlock(string minerAddress)
     {
-        string cacheKey = RideRequestsKey();
+        string cacheKey = TransactionCacheKey();
         var transactions = _cache.Get<List<Transaction>>(cacheKey) ?? new List<Transaction>();
         if (transactions.Count == 0)
             return;
@@ -85,6 +95,11 @@ public class BlockchainService : IBlockchainService
         return _context.Blocks.OrderBy(q => q.Id).LastOrDefault();
     }
 
+    private string TransactionCacheKey()
+    {
+        return _cacheKeys.GetCacheKey("Transactions", "Pending", includeTenantId: false);
+    }
+
     private void AddBlock(List<Transaction> transactions, Block lastBlock)
     {
         var block = new Block(lastBlock.Id, transactions);
@@ -96,4 +111,11 @@ public class BlockchainService : IBlockchainService
     {
         return _context.RideRequests.ToList();
     }
+
+    private RideRequest? GetRideRequest(Guid transactionId)
+    {
+        return _context.RideRequests.Where(q => q.TransactionId == transactionId).FirstOrDefault();
+    }
+
+
 }

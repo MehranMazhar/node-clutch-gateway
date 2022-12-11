@@ -29,3 +29,12 @@ public class RideRequestConfig : IEntityTypeConfiguration<RideRequest>
             .ToTable("RideRequests", SchemaNames.Blockchain);
     }
 }
+
+public class RideOfferConfig : IEntityTypeConfiguration<RideOffer>
+{
+    public void Configure(EntityTypeBuilder<RideOffer> builder)
+    {
+        builder
+            .ToTable("RideOffers", SchemaNames.Blockchain);
+    }
+}

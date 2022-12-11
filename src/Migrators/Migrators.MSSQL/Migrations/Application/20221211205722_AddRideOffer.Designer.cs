@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NodeClutchGateway.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,10 @@ using NodeClutchGateway.Infrastructure.Persistence.Context;
 namespace Migrators.MSSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221211205722_AddRideOffer")]
+    partial class AddRideOffer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,7 +219,7 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasIndex("TransactionId")
                         .IsUnique();
 
-                    b.ToTable("RideOffers", "Blockchain");
+                    b.ToTable("RideOffer", "Catalog");
                 });
 
             modelBuilder.Entity("NodeClutchGateway.Domain.Blockchain.RideRequest", b =>
