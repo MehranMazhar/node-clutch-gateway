@@ -1,7 +1,7 @@
 ﻿using NodeClutchGateway.Application.Blockchain;
 
-namespace NodeClutchGateway.Application.Clutch.RideReuqest;
-public class CreateRideRequest : IRequest<bool>
+namespace NodeClutchGateway.Application.Clutch.RideOffer;
+public class CreateRideOffer : IRequest<bool>
 {
     public double SourceLocation { get; set; }
     public double DestinationLocation { get; set; }
@@ -9,7 +9,7 @@ public class CreateRideRequest : IRequest<bool>
     public int ExpireInMintue { get; set; }
 }
 
-public class CreateRideRequestValidator : CustomValidator<CreateRideRequest>
+public class CreateRideRequestValidator : CustomValidator<CreateRideOffer>
 {
     public CreateRideRequestValidator()
     {
@@ -24,7 +24,7 @@ public class CreateRideRequestValidator : CustomValidator<CreateRideRequest>
     }
 }
 
-public class CreateRideRequestHandler : IRequestHandler<CreateRideRequest, bool>
+public class CreateRideRequestHandler : IRequestHandler<CreateRideOffer, bool>
 {
     private readonly IBlockchainService _blockchainService;
 
@@ -33,7 +33,7 @@ public class CreateRideRequestHandler : IRequestHandler<CreateRideRequest, bool>
         _blockchainService = blockchainService;
     }
 
-    public Task<bool> Handle(CreateRideRequest request, CancellationToken cancellationToken)
+    public Task<bool> Handle(CreateRideOffer request, CancellationToken cancellationToken)
     {
         _blockchainService.AddRideRequest(request.SourceLocation, request.DestinationLocation, request.Fare, request.ExpireInMintue);
         return Task.FromResult(true);

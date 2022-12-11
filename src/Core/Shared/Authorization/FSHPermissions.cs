@@ -27,6 +27,7 @@ public static class FSHResource
     public const string Products = nameof(Products);
     public const string Brands = nameof(Brands);
     public const string RideRequests = nameof(RideRequests);
+    public const string RideOffer = nameof(RideOffer);
 }
 
 public static class FSHPermissions
@@ -68,6 +69,7 @@ public static class FSHPermissions
         new("Upgrade Tenant Subscription", FSHAction.UpgradeSubscription, FSHResource.Tenants, IsRoot: true),
 
         new("Create Ride Request", FSHAction.Create, FSHResource.RideRequests, IsPassenger: true),
+        new("Create Ride Offer", FSHAction.Create, FSHResource.RideOffer, IsDriver: true),
 
     };
 
@@ -76,9 +78,10 @@ public static class FSHPermissions
     public static IReadOnlyList<FSHPermission> Admin { get; } = new ReadOnlyCollection<FSHPermission>(_all.Where(p => !p.IsRoot).ToArray());
     public static IReadOnlyList<FSHPermission> Basic { get; } = new ReadOnlyCollection<FSHPermission>(_all.Where(p => p.IsBasic).ToArray());
     public static IReadOnlyList<FSHPermission> Passenger { get; } = new ReadOnlyCollection<FSHPermission>(_all.Where(p => p.IsPassenger).ToArray());
+    public static IReadOnlyList<FSHPermission> Driver { get; } = new ReadOnlyCollection<FSHPermission>(_all.Where(p => p.IsDriver).ToArray());
 }
 
-public record FSHPermission(string Description, string Action, string Resource, bool IsBasic = false, bool IsRoot = false, bool IsPassenger = false)
+public record FSHPermission(string Description, string Action, string Resource, bool IsBasic = false, bool IsRoot = false, bool IsPassenger = false, bool IsDriver = false)
 {
     public string Name => NameFor(Action, Resource);
     public static string NameFor(string action, string resource) => $"Permissions.{resource}.{action}";
