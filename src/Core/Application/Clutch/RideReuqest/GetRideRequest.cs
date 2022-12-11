@@ -19,9 +19,10 @@ public class GetRideRequestHandle : IRequestHandler<GetRideRequest, List<RideReq
         _blockchainService = blockchainService;
     }
 
-    public async Task<List<RideRequestDto>> Handle(GetRideRequest request, CancellationToken cancellationToken)
+    public Task<List<RideRequestDto>> Handle(GetRideRequest request, CancellationToken cancellationToken)
     {
-        return await _blockchainService.GetRideRequestAsync();
+        var rideReuests = _blockchainService.GetRideRequest();
+        return Task.FromResult(rideReuests);
 
     }
 }

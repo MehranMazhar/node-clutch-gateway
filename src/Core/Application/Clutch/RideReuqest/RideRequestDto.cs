@@ -10,4 +10,5 @@ public class RideRequestDto : IDto
     public double SourceLocation { get; set; }
     public double DestinationLocation { get; set; }
     public double Fare { get; set; }
+    public DateTime ExpireOn { get; set; }
 }

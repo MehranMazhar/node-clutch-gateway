@@ -20,6 +20,7 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<Brand> Brands => Set<Brand>();
     public DbSet<Block> Blocks => Set<Block>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
+    public DbSet<RideRequest> RideRequests => Set<RideRequest>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

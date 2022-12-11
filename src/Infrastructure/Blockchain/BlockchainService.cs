@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+﻿using Ardalis.Specification.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using NodeClutchGateway.Application.Blockchain;
 using NodeClutchGateway.Application.Clutch.RideReuqest;
 using NodeClutchGateway.Application.Common.Caching;
@@ -46,20 +48,18 @@ public class BlockchainService : IBlockchainService
         return _cacheKeys.GetCacheKey("PendingTransaction", "RideRequests", includeTenantId: false);
     }
 
-    public async Task<List<RideRequestDto>> GetRideRequestAsync()
+    public List<RideRequestDto> GetRideRequest()
     {
-        var userId = _currentUser.GetUserId();
-        string cacheKey = RideRequestsKey();
-
-        var rideRequests = await _cache.GetAsync<List<Transaction>>(cacheKey);
+        var rideRequests = GetRideRequests();
         if (rideRequests == null)
-            throw new NotFoundException(string.Format("Ride Requests Not Found", userId));
+            throw new NotFoundException(string.Format("Ride Requests Not Found"));
 
         return rideRequests.Select(t => new RideRequestDto()
         {
-            SourceLocation = t.RideRequest.SourceLocation,
-            DestinationLocation = t.RideRequest.DestinationLocation,
-            Fare = t.RideRequest.Fare,
+            SourceLocation = t.SourceLocation,
+            DestinationLocation = t.DestinationLocation,
+            Fare = t.Fare,
+            ExpireOn = t.ExpireOn,
         }).ToList();
 
     }
@@ -89,5 +89,10 @@ public class BlockchainService : IBlockchainService
         var block = new Block(lastBlock.Id, transactions);
         _context.Add(block);
         _context.SaveChanges();
+    }
+
+    private List<RideRequest> GetRideRequests()
+    {
+        return _context.RideRequests.ToList();
     }
 }
