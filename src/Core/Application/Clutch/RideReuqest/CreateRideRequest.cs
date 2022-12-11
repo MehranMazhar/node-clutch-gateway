@@ -19,6 +19,9 @@ public class CreateRideRequestValidator : CustomValidator<CreateRideRequest>
         RuleFor(p => p.DestinationLocation)
        .NotEmpty();
 
+        RuleFor(p => p.Fare)
+       .NotEmpty();
+
         RuleFor(p => p.ExpireInMintue)
        .NotEmpty();
     }

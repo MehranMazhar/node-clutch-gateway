@@ -3,7 +3,7 @@
 namespace NodeClutchGateway.Application.Clutch.RideOffer;
 public class CreateRideOffer : IRequest<bool>
 {
-    public Guid SelectedRideRequestId { get; set; }
+    public Guid RideRequestTransactionId { get; set; }
     public double Fare { get; set; }
     public int ExpireInMintue { get; set; }
 }
