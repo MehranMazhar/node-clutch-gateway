@@ -66,7 +66,7 @@ public class BlockchainService : IBlockchainService
             throw new NotFoundException(string.Format("Ride Requests Not Found"));
 
         var userId = _currentUser.GetUserId();
-        var rideOffer = new RideOffer(fare, DateTime.Now.AddMinutes(expireInMintue));
+        var rideOffer = new RideOffer(fare, DateTime.Now.AddMinutes(expireInMintue), rideRequest.TransactionId);
         var transaction = new Transaction(userId.ToString(), userId.ToString(), rideOffer);
 
         string cacheKey = TransactionCacheKey();
@@ -102,7 +102,7 @@ public class BlockchainService : IBlockchainService
         {
             ExpireOn = r.ExpireOn,
             Fare = r.Fare,
-            TransactionId = r.TransactionId,
+            RideRequestTransactionId = r.RideRequestTransactionId,
         }).ToList();
     }
     #endregion

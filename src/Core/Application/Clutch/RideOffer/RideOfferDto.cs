@@ -9,5 +9,5 @@ public class RideOfferDto : IDto
 {
     public DateTime ExpireOn { get; set; }
     public double Fare { get; set; }
-    public Guid TransactionId { get; set; }
+    public Guid RideRequestTransactionId { get; set; }
 }
