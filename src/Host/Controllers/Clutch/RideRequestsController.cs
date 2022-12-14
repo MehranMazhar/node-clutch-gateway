@@ -1,4 +1,6 @@
-﻿using NodeClutchGateway.Application.Clutch.RideReuqest;
+﻿using NodeClutchGateway.Application.Clutch.RideOffer;
+using NodeClutchGateway.Application.Clutch.RideReuqest;
+using NodeClutchGateway.Application.Identity.Users;
 
 namespace NodeClutchGateway.Host.Controllers.Clutch;
 
@@ -18,5 +20,15 @@ public class RideRequestsController : VersionNeutralApiController
     public async Task<List<RideRequestDto>> GetAllRideRequests()
     {
         return await Mediator.Send(new GetAllRideRequests());
+    }
+
+    [HttpGet("{id:guid}/rideoffers")]
+    [OpenApiOperation("Get a ride request's offers.", "")]
+    public async Task<List<RideOfferDto>> GetRideOffersByRideRequestTransactionId(Guid id, CancellationToken cancellationToken)
+    {
+        return await Mediator.Send(new GetRideOffersByRideRequestTransactionId()
+        {
+            RideRequestTransactionId = id
+        });
     }
 }

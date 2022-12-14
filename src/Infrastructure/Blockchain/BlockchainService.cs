@@ -89,12 +89,25 @@ public class BlockchainService : IBlockchainService
             ExpireOn = r.ExpireOn,
             TransactionId = r.TransactionId,
         }).ToList();
-
     }
 
     public List<RideOfferDto> GetRideOffers()
     {
         var rideOffers = GetRideOffersDomain();
+        if (rideOffers == null)
+            throw new NotFoundException(string.Format("Ride offers Not Found"));
+
+        return rideOffers.Select(r => new RideOfferDto()
+        {
+            ExpireOn = r.ExpireOn,
+            Fare = r.Fare,
+            RideRequestTransactionId = r.RideRequestTransactionId,
+        }).ToList();
+    }
+
+    public List<RideOfferDto> GetRideOffers(Guid rideRequestTransactionId)
+    {
+        var rideOffers = GetRideOffersDomain(rideRequestTransactionId);
         if (rideOffers == null)
             throw new NotFoundException(string.Format("Ride offers Not Found"));
 
@@ -133,6 +146,11 @@ public class BlockchainService : IBlockchainService
     private List<RideOffer> GetRideOffersDomain()
     {
         return _context.RideOffers.ToList();
+    }
+
+    private List<RideOffer> GetRideOffersDomain(Guid rideRequestTransactionId)
+    {
+        return _context.RideOffers.Where(q => q.RideRequestTransactionId == rideRequestTransactionId).ToList();
     }
 
     private RideRequest? GetRideRequest(Guid transactionId)

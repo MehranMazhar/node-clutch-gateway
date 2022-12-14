@@ -8,7 +8,7 @@ public class Block : AuditableEntity, IAggregateRoot
     public Guid? ParentBlockId { get; private set; }
     public virtual Block ParentBlock { get; set; }
     public string Hash { get; private set; }
-    public ICollection<Transaction> Transactions { get; private set; }
+    public virtual ICollection<Transaction> Transactions { get; private set; }
 
     public Block(Guid parentBlockId, List<Transaction> transactions)
     {
