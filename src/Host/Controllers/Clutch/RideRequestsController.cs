@@ -36,7 +36,7 @@ public class RideRequestsController : VersionNeutralApiController
 
     [HttpGet("{id:guid}/rideoffers")]
     [OpenApiOperation("Get a ride request's offers.", "")]
-    public async Task<List<RideOfferDto>> GetRideOffersByRideRequestTransactionId(Guid id, CancellationToken cancellationToken)
+    public async Task<List<RideOfferDto>> GetRideOffersByRideRequestTransactionId(Guid id)
     {
         return await Mediator.Send(new GetRideOffersByRideRequestTransactionId()
         {
