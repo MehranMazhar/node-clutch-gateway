@@ -7,21 +7,22 @@ using System.Threading.Tasks;
 namespace NodeClutchGateway.Domain.Blockchain;
 public class RideOffer : AuditableEntity, IAggregateRoot
 {
-    public double Fare { get; private set; }
-    public DateTime ExpireOn { get; private set; }
+    public double Fare { get; set; }
+    public DateTime ExpireOn { get; set; }
 
-    public Guid TransactionId { get; private set; }
-    public virtual Transaction Transaction { get; private set; }
+    public Guid TransactionId { get; set; }
+    public virtual Transaction Transaction { get; set; }
 
-    //public Guid RideRequestTransactionId { get; private set; }
-    //public virtual Transaction RideRequestTransaction { get; private set; }
+    public Guid RideRequestId { get; set; }
+    public virtual RideRequest RideRequest { get; set; }
 
-    public RideOffer(double fare, DateTime expireOn, Guid rideRequestTransactionId)
+    public RideOffer(double fare, DateTime expireOn, Guid rideRequestId)
     {
         Fare = fare;
         ExpireOn = expireOn;
-        //RideRequestTransactionId = rideRequestTransactionId;
+        RideRequestId = rideRequestId;
     }
+
     public RideOffer()
     {
 

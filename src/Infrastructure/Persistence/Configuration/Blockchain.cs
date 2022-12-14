@@ -38,15 +38,9 @@ public class RideOfferConfig : IEntityTypeConfiguration<RideOffer>
             .ToTable("RideOffers", SchemaNames.Blockchain);
 
 
-        //builder.HasOne(a => a.Transaction)
-        //    .WithOne(a => a.RideOffer)
-        //    .HasForeignKey<RideOffer>(a => a.TransactionId)
-        //    .OnDelete(DeleteBehavior.NoAction);
-
-        //builder.HasOne(a => a.RideRequestTransaction)
-        //    .WithOne(a => a.SelectedRideOffer)
-        //    .HasForeignKey<RideOffer>(a => a.RideRequestTransactionId)
-        //    .OnDelete(DeleteBehavior.NoAction);
-
+        builder.HasOne(a => a.RideRequest)
+            .WithMany(a => a.RideOffers)
+            .HasForeignKey(a => a.RideRequestId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

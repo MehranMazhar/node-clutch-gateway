@@ -13,6 +13,7 @@ public class RideRequest : AuditableEntity, IAggregateRoot
     public DateTime ExpireOn { get; private set; }
     public Guid TransactionId { get; private set; }
     public virtual Transaction Transaction { get; private set; }
+    public virtual ICollection<RideOffer> RideOffers { get; set; }
 
     public RideRequest(double sourceLocation, double destinationLocation, double fare, DateTime expireOn)
     {
