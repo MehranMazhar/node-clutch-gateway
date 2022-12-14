@@ -117,5 +117,4 @@ public class BlockchainService : IBlockchainService
         return _context.RideRequests.Where(q => q.TransactionId == transactionId).FirstOrDefault();
     }
 
-
 }
