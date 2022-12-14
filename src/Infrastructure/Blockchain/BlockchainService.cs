@@ -194,6 +194,8 @@ public class BlockchainService : IBlockchainService
             .Include(rideOffer => rideOffer.Ride)
             .Include(rideOffer => rideOffer.RideRequest)
             .ThenInclude(rideRequest => rideRequest.Transaction)
+            .ThenInclude(rideRequest => rideRequest.RideOffer)
+            .ThenInclude(RideOffer => RideOffer.Ride)
             .Where(q => q.TransactionId == rideOfferTransactionId)
             .FirstOrDefault();
     }
