@@ -1,6 +1,6 @@
 ﻿using NodeClutchGateway.Application.Clutch.RideReuqest;
 
-namespace NodeClutchGateway.Host.Controllers.Ride;
+namespace NodeClutchGateway.Host.Controllers.Clutch;
 
 public class RideRequestController : VersionNeutralApiController
 {
