@@ -1,7 +1,7 @@
 ﻿using NodeClutchGateway.Application.Clutch.RideOffer;
 
 namespace NodeClutchGateway.Host.Controllers.Clutch;
-public class RideOfferController : VersionNeutralApiController
+public class RideOffersController : VersionNeutralApiController
 {
     [HttpPost]
     [MustHavePermission(FSHAction.Create, FSHResource.RideOffer)]
