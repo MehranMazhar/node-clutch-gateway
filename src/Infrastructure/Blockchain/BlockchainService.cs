@@ -10,6 +10,7 @@ using NodeClutchGateway.Application.Common.Interfaces;
 using NodeClutchGateway.Domain.Blockchain;
 using NodeClutchGateway.Infrastructure.Auth;
 using NodeClutchGateway.Infrastructure.Persistence.Context;
+using RazorEngineCore;
 
 namespace NodeClutchGateway.Infrastructure.Blockchain;
 public class BlockchainService : IBlockchainService
@@ -70,10 +71,7 @@ public class BlockchainService : IBlockchainService
         var rideOffer = new RideOffer(fare, DateTime.Now.AddMinutes(expireInMintue), rideRequest.Id);
         var transaction = new Transaction(userId.ToString(), userId.ToString(), rideOffer);
 
-        string cacheKey = TransactionCacheKey();
-        var transactions = _cache.Get<List<Transaction>>(cacheKey) ?? new List<Transaction>();
-        transactions.Add(transaction);
-        _cache.Set(cacheKey, transactions, TimeSpan.FromMinutes(expireInMintue));
+        AddPendingTransaction(transaction, expireInMintue);
     }
 
     public List<RideRequestDto> GetRideRequest()
@@ -110,27 +108,40 @@ public class BlockchainService : IBlockchainService
         return rideOffers.Select(RideRequestDto).ToList();
     }
 
-    public bool RideAcceptance(Guid rideOfferTransactionId)
+    public void RideAcceptance(Guid rideOfferTransactionId)
     {
         var userId = _currentUser.GetUserId();
 
         var rideOffer = GetRideOfferDomainByTransactionId(rideOfferTransactionId);
         if (rideOffer == null)
-            throw new NotFoundException(string.Format("Ride offer Not Found."));
+            throw new NotFoundException(string.Format("Ride offer not found."));
 
         var rideRequest = rideOffer.RideRequest;
         if (rideRequest == null)
-            throw new NotFoundException(string.Format("Ride Request Not Found."));
+            throw new NotFoundException(string.Format("Ride request not found."));
 
         if (rideRequest.Transaction.From != userId.ToString())
             throw new ForbiddenException("You are not authorized to access this resource.");
 
-        return true;
+        if (rideRequest.RideOffers.Any(q => q.Ride != null))
+            throw new ForbiddenException("Already ride created!");
+
+        var ride = new Ride(rideOffer.Id);
+        var transaction = new Transaction(userId.ToString(), userId.ToString(), ride);
+        AddPendingTransaction(transaction);
     }
 
     #endregion
 
     #region Private
+    private void AddPendingTransaction(Transaction transaction, int expireInMintue = 20)
+    {
+        string cacheKey = TransactionCacheKey();
+        var transactions = _cache.Get<List<Transaction>>(cacheKey) ?? new List<Transaction>();
+        transactions.Add(transaction);
+        _cache.Set(cacheKey, transactions, TimeSpan.FromMinutes(expireInMintue));
+    }
+
     private static RideOfferDto RideRequestDto(RideOffer r)
     {
         return new RideOfferDto()
@@ -177,10 +188,12 @@ public class BlockchainService : IBlockchainService
 
     }
 
-    private RideOffer GetRideOfferDomainByTransactionId(Guid rideOfferTransactionId)
+    private RideOffer? GetRideOfferDomainByTransactionId(Guid rideOfferTransactionId)
     {
         return _context.RideOffers
-            .Include(c => c.RideRequest)
+            .Include(rideOffer => rideOffer.Ride)
+            .Include(rideOffer => rideOffer.RideRequest)
+            .ThenInclude(rideRequest => rideRequest.Transaction)
             .Where(q => q.TransactionId == rideOfferTransactionId)
             .FirstOrDefault();
     }

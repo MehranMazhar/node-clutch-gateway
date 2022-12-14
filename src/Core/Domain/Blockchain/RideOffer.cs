@@ -16,6 +16,8 @@ public class RideOffer : AuditableEntity, IAggregateRoot
     public Guid RideRequestId { get; set; }
     public virtual RideRequest RideRequest { get; set; }
 
+    public virtual Ride Ride { get; set; }
+
     public RideOffer(double fare, DateTime expireOn, Guid rideRequestId)
     {
         Fare = fare;

@@ -10,6 +10,7 @@ public class Transaction : AuditableEntity, IAggregateRoot
     public virtual Block Block { get; set; } = default!;
     public virtual RideRequest RideRequest { get; set; } = default!;
     public virtual RideOffer RideOffer { get; set; } = default!;
+    public virtual Ride Ride { get; set; } = default!;
 
     public Transaction(string from, string to, RideRequest rideRequest)
     {
@@ -23,6 +24,13 @@ public class Transaction : AuditableEntity, IAggregateRoot
         From = from;
         To = to;
         RideOffer = rideOffer;
+    }
+
+    public Transaction(string from, string to, Ride ride)
+    {
+        From = from;
+        To = to;
+        Ride = ride;
     }
 
     public Transaction()

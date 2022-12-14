@@ -36,6 +36,7 @@ public class RideRequestsController : VersionNeutralApiController
     }
 
     [HttpGet("{rideRequestTransactionId:guid}/rideoffers")]
+    [AllowAnonymous]
     [OpenApiOperation("Get a ride request's offers.", "")]
     public async Task<List<RideOfferDto>> GetRideOffersByRideRequestTransactionId(Guid rideRequestTransactionId)
     {
