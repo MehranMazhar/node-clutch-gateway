@@ -21,26 +21,26 @@ public class RideRequestsController : VersionNeutralApiController
         return await Mediator.Send(new GetAllRideRequests());
     }
 
-    [HttpPost("{id:guid}/rideoffers")]
+    [HttpPost("{rideRequestTransactionId:guid}/rideoffers")]
     [MustHavePermission(FSHAction.Create, FSHResource.RideOffer)]
     [OpenApiOperation("Create a ride offer by Driver.", "")]
-    public async Task<bool> CreateRideOffer(Guid id, CreateRideOffer request)
+    public async Task<bool> CreateRideOffer(Guid rideRequestTransactionId, CreateRideOffer request)
     {
         return await Mediator.Send(new CreateRideOffer()
         {
-            RideRequestTransactionId = id,
+            RideRequestTransactionId = rideRequestTransactionId,
             ExpireInMintue = request.ExpireInMintue,
             Fare = request.Fare,
         });
     }
 
-    [HttpGet("{id:guid}/rideoffers")]
+    [HttpGet("{rideRequestTransactionId:guid}/rideoffers")]
     [OpenApiOperation("Get a ride request's offers.", "")]
-    public async Task<List<RideOfferDto>> GetRideOffersByRideRequestTransactionId(Guid id)
+    public async Task<List<RideOfferDto>> GetRideOffersByRideRequestTransactionId(Guid rideRequestTransactionId)
     {
         return await Mediator.Send(new GetRideOffersByRideRequestTransactionId()
         {
-            RideRequestTransactionId = id
+            RideRequestTransactionId = rideRequestTransactionId
         });
     }
 }
