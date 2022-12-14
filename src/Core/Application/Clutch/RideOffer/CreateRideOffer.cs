@@ -3,7 +3,7 @@
 namespace NodeClutchGateway.Application.Clutch.RideOffer;
 public class CreateRideOffer : IRequest<bool>
 {
-    public Guid RideRequestTransactionId { get; set; }
+    public Guid? RideRequestTransactionId { get; set; }
     public double Fare { get; set; }
     public int ExpireInMintue { get; set; }
 }
@@ -11,10 +11,7 @@ public class CreateRideOffer : IRequest<bool>
 public class CreateRideRequestValidator : CustomValidator<CreateRideOffer>
 {
     public CreateRideRequestValidator()
-    {
-        RuleFor(p => p.RideRequestTransactionId)
-       .NotEmpty();
-
+    {      
         RuleFor(p => p.Fare)
        .NotEmpty();
 
@@ -34,7 +31,7 @@ public class CreateRideRequestHandler : IRequestHandler<CreateRideOffer, bool>
 
     public Task<bool> Handle(CreateRideOffer request, CancellationToken cancellationToken)
     {
-        _blockchainService.AddRideOffer(request.RideRequestTransactionId, request.Fare, request.ExpireInMintue);
+        _blockchainService.AddRideOffer(request.RideRequestTransactionId.Value, request.Fare, request.ExpireInMintue);
         return Task.FromResult(true);
     }
 }

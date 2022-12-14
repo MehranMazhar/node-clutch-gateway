@@ -1,6 +1,5 @@
 ﻿using NodeClutchGateway.Application.Clutch.RideOffer;
 using NodeClutchGateway.Application.Clutch.RideReuqest;
-using NodeClutchGateway.Application.Identity.Users;
 
 namespace NodeClutchGateway.Host.Controllers.Clutch;
 
@@ -20,6 +19,19 @@ public class RideRequestsController : VersionNeutralApiController
     public async Task<List<RideRequestDto>> GetAllRideRequests()
     {
         return await Mediator.Send(new GetAllRideRequests());
+    }
+
+    [HttpPost("{id:guid}/rideoffers")]
+    [MustHavePermission(FSHAction.Create, FSHResource.RideOffer)]
+    [OpenApiOperation("Create a ride offer by Driver.", "")]
+    public async Task<bool> CreateRideOffer(Guid id, CreateRideOffer request)
+    {
+        return await Mediator.Send(new CreateRideOffer()
+        {
+            RideRequestTransactionId = id,
+            ExpireInMintue = request.ExpireInMintue,
+            Fare = request.Fare,
+        });
     }
 
     [HttpGet("{id:guid}/rideoffers")]
