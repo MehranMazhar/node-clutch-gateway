@@ -37,7 +37,6 @@ public class RideOfferConfig : IEntityTypeConfiguration<RideOffer>
         builder
             .ToTable("RideOffers", SchemaNames.Blockchain);
 
-
         builder.HasOne(a => a.RideRequest)
             .WithMany(a => a.RideOffers)
             .HasForeignKey(a => a.RideRequestId)

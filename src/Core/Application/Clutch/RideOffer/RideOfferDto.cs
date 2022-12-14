@@ -10,4 +10,5 @@ public class RideOfferDto : IDto
     public DateTime ExpireOn { get; set; }
     public double Fare { get; set; }
     public Guid RideRequestTransactionId { get; set; }
+    public DefaultIdType TransactionId { get; set; }
 }
