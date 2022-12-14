@@ -1,20 +1,15 @@
 ﻿using NodeClutchGateway.Application.Blockchain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NodeClutchGateway.Application.Clutch.RideReuqest;
 public class GetAllRideRequests : IRequest<List<RideRequestDto>>
 {
 }
 
-public class GetRideRequestHandle : IRequestHandler<GetAllRideRequests, List<RideRequestDto>>
+public class GetAllRideRequestsHandler : IRequestHandler<GetAllRideRequests, List<RideRequestDto>>
 {
     private readonly IBlockchainService _blockchainService;
 
-    public GetRideRequestHandle(IBlockchainService blockchainService)
+    public GetAllRideRequestsHandler(IBlockchainService blockchainService)
     {
         _blockchainService = blockchainService;
     }
