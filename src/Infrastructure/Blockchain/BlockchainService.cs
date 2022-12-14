@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using NodeClutchGateway.Application.Blockchain;
+using NodeClutchGateway.Application.Clutch.RideOffer;
 using NodeClutchGateway.Application.Clutch.RideReuqest;
 using NodeClutchGateway.Application.Common.Caching;
 using NodeClutchGateway.Application.Common.Exceptions;
@@ -76,7 +77,7 @@ public class BlockchainService : IBlockchainService
 
     public List<RideRequestDto> GetRideRequest()
     {
-        var rideRequests = GetRideRequests();
+        var rideRequests = GetRideRequestsDomain();
         if (rideRequests == null)
             throw new NotFoundException(string.Format("Ride Requests Not Found"));
 
@@ -89,6 +90,20 @@ public class BlockchainService : IBlockchainService
             TransactionId = r.TransactionId,
         }).ToList();
 
+    }
+
+    public List<RideOfferDto> GetRideOffers()
+    {
+        var rideOffers = GetRideOffersDomain();
+        if (rideOffers == null)
+            throw new NotFoundException(string.Format("Ride offers Not Found"));
+
+        return rideOffers.Select(r => new RideOfferDto()
+        {
+            ExpireOn = r.ExpireOn,
+            Fare = r.Fare,
+            TransactionId = r.TransactionId,
+        }).ToList();
     }
     #endregion
 
@@ -110,14 +125,20 @@ public class BlockchainService : IBlockchainService
         _context.SaveChanges();
     }
 
-    private List<RideRequest> GetRideRequests()
+    private List<RideRequest> GetRideRequestsDomain()
     {
         return _context.RideRequests.ToList();
+    }
+
+    private List<RideOffer> GetRideOffersDomain()
+    {
+        return _context.RideOffers.ToList();
     }
 
     private RideRequest? GetRideRequest(Guid transactionId)
     {
         return _context.RideRequests.Where(q => q.TransactionId == transactionId).FirstOrDefault();
     }
+
     #endregion
 }

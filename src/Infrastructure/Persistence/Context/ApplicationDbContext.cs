@@ -21,6 +21,7 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<Block> Blocks => Set<Block>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<RideRequest> RideRequests => Set<RideRequest>();
+    public DbSet<RideOffer> RideOffers => Set<RideOffer>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

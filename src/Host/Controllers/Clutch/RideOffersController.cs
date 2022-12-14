@@ -13,8 +13,8 @@ public class RideOffersController : VersionNeutralApiController
 
     [HttpGet]
     [OpenApiOperation("Get all ride offers.", "")]
-    public async Task<bool> GetAllRideOffers(CreateRideOffer request)
+    public async Task<List<RideOfferDto>> GetAllRideOffers()
     {
-        return await Mediator.Send(request);
+        return await Mediator.Send(new GetAllRideOffers());
     }
 }
