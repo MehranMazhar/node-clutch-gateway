@@ -12,9 +12,8 @@ public class RideOfferController : VersionNeutralApiController
     }
 
     [HttpGet]
-    [MustHavePermission(FSHAction.View, FSHResource.RideOffer)]
-    [OpenApiOperation("Create a ride offer by Driver.", "")]
-    public async Task<bool> GetOfferOffer(CreateRideOffer request)
+    [OpenApiOperation("Get all ride offers.", "")]
+    public async Task<bool> GetAllRideOffers(CreateRideOffer request)
     {
         return await Mediator.Send(request);
     }
