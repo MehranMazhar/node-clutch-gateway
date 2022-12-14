@@ -28,6 +28,7 @@ public static class FSHResource
     public const string Brands = nameof(Brands);
     public const string RideRequests = nameof(RideRequests);
     public const string RideOffer = nameof(RideOffer);
+    public const string RideAcceptance = nameof(RideAcceptance);
 }
 
 public static class FSHPermissions
@@ -70,6 +71,7 @@ public static class FSHPermissions
 
         new("Create Ride Request", FSHAction.Create, FSHResource.RideRequests, IsPassenger: true),
         new("Create Ride Offer", FSHAction.Create, FSHResource.RideOffer, IsDriver: true),
+        new("Create Ride Acceptance", FSHAction.Create, FSHResource.RideAcceptance, IsPassenger: true),
 
     };
 

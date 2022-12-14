@@ -11,7 +11,7 @@ public class CreateRideOffer : IRequest<bool>
 public class CreateRideRequestValidator : CustomValidator<CreateRideOffer>
 {
     public CreateRideRequestValidator()
-    {      
+    {
         RuleFor(p => p.Fare)
        .NotEmpty();
 

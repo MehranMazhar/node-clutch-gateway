@@ -28,6 +28,7 @@ public class BlockchainService : IBlockchainService
     }
 
     #region Public
+
     public void MineBlock(string minerAddress)
     {
         string cacheKey = TransactionCacheKey();
@@ -109,6 +110,27 @@ public class BlockchainService : IBlockchainService
         return rideOffers.Select(RideRequestDto).ToList();
     }
 
+    public bool RideAcceptance(Guid rideOfferTransactionId)
+    {
+        var userId = _currentUser.GetUserId();
+
+        var rideOffer = GetRideOfferDomainByTransactionId(rideOfferTransactionId);
+        if (rideOffer == null)
+            throw new NotFoundException(string.Format("Ride offer Not Found."));
+
+        var rideRequest = rideOffer.RideRequest;
+        if (rideRequest == null)
+            throw new NotFoundException(string.Format("Ride Request Not Found."));
+
+        if (rideRequest.Transaction.From != userId.ToString())
+            throw new ForbiddenException("You are not authorized to access this resource.");
+
+        return true;
+    }
+
+    #endregion
+
+    #region Private
     private static RideOfferDto RideRequestDto(RideOffer r)
     {
         return new RideOfferDto()
@@ -119,9 +141,7 @@ public class BlockchainService : IBlockchainService
             TransactionId = r.TransactionId,
         };
     }
-    #endregion
 
-    #region Private
     private Block? GetLastBlock()
     {
         return _context.Blocks.OrderBy(q => q.Id).LastOrDefault();
@@ -155,6 +175,14 @@ public class BlockchainService : IBlockchainService
             .Where(q => q.RideRequest.TransactionId == rideRequestTransactionId)
             .ToList();
 
+    }
+
+    private RideOffer GetRideOfferDomainByTransactionId(Guid rideOfferTransactionId)
+    {
+        return _context.RideOffers
+            .Include(c => c.RideRequest)
+            .Where(q => q.TransactionId == rideOfferTransactionId)
+            .FirstOrDefault();
     }
 
     private RideRequest? GetRideRequest(Guid transactionId)

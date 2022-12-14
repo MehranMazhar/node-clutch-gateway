@@ -11,4 +11,5 @@ public interface IBlockchainService : ITransientService
     List<RideOfferDto> GetRideOffers(DefaultIdType rideRequestTransactionId);
     List<RideRequestDto> GetRideRequest();
     void MineBlock(string minerAddress);
+    bool RideAcceptance(DefaultIdType rideOfferTransactionId);
 }

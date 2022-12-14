@@ -1,4 +1,5 @@
-﻿using NodeClutchGateway.Application.Clutch.RideOffer;
+﻿using NodeClutchGateway.Application.Clutch.RideAcceptance;
+using NodeClutchGateway.Application.Clutch.RideOffer;
 using NodeClutchGateway.Application.Clutch.RideReuqest;
 
 namespace NodeClutchGateway.Host.Controllers.Clutch;
@@ -41,6 +42,18 @@ public class RideRequestsController : VersionNeutralApiController
         return await Mediator.Send(new GetRideOffersByRideRequestTransactionId()
         {
             RideRequestTransactionId = rideRequestTransactionId
+        });
+    }
+
+    [HttpPost("{rideRequestTransactionId:guid}/rideoffers/{rideOfferTransactionId:guid}/RideAcceptance")]
+    [MustHavePermission(FSHAction.Create, FSHResource.RideAcceptance)]
+    [OpenApiOperation("Add ride acceptance.", "")]
+    public async Task<bool> CreateRideAcceptance(Guid rideRequestTransactionId, Guid rideOfferTransactionId)
+    {
+        return await Mediator.Send(new CreateRideAcceptance()
+        {
+            RideRequestTransactionId = rideRequestTransactionId,
+            RideOfferTransactionId = rideOfferTransactionId,
         });
     }
 }
