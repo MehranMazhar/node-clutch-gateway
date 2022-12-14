@@ -13,13 +13,17 @@ public class RideOffer : AuditableEntity, IAggregateRoot
     public Guid TransactionId { get; private set; }
     public virtual Transaction Transaction { get; private set; }
 
-    public Guid RideRequestTransactionId { get; private set; }
-    public virtual Transaction RideRequestTransaction { get; private set; }
+    //public Guid RideRequestTransactionId { get; private set; }
+    //public virtual Transaction RideRequestTransaction { get; private set; }
 
     public RideOffer(double fare, DateTime expireOn, Guid rideRequestTransactionId)
     {
         Fare = fare;
         ExpireOn = expireOn;
-        RideRequestTransactionId = rideRequestTransactionId;
+        //RideRequestTransactionId = rideRequestTransactionId;
+    }
+    public RideOffer()
+    {
+
     }
 }

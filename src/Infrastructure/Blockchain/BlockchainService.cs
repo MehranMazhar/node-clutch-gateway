@@ -101,7 +101,7 @@ public class BlockchainService : IBlockchainService
         {
             ExpireOn = r.ExpireOn,
             Fare = r.Fare,
-            RideRequestTransactionId = r.RideRequestTransactionId,
+            //RideRequestTransactionId = r.RideRequestTransactionId,
         }).ToList();
     }
 
@@ -115,7 +115,7 @@ public class BlockchainService : IBlockchainService
         {
             ExpireOn = r.ExpireOn,
             Fare = r.Fare,
-            RideRequestTransactionId = r.RideRequestTransactionId,
+            //RideRequestTransactionId = r.RideRequestTransactionId,
         }).ToList();
     }
     #endregion
@@ -150,7 +150,9 @@ public class BlockchainService : IBlockchainService
 
     private List<RideOffer> GetRideOffersDomain(Guid rideRequestTransactionId)
     {
-        return _context.RideOffers.Where(q => q.RideRequestTransactionId == rideRequestTransactionId).ToList();
+        //return _context.RideOffers.Where(q => q.RideRequestTransactionId == rideRequestTransactionId).ToList();
+        return _context.RideOffers.ToList();
+
     }
 
     private RideRequest? GetRideRequest(Guid transactionId)

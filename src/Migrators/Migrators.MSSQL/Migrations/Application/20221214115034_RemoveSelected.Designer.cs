@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NodeClutchGateway.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,10 @@ using NodeClutchGateway.Infrastructure.Persistence.Context;
 namespace Migrators.MSSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221214115034_RemoveSelected")]
+    partial class RemoveSelected
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -679,7 +681,7 @@ namespace Migrators.MSSQL.Migrations.Application
                     b.HasOne("NodeClutchGateway.Domain.Blockchain.Transaction", "Transaction")
                         .WithOne("RideOffer")
                         .HasForeignKey("NodeClutchGateway.Domain.Blockchain.RideOffer", "TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Transaction");
