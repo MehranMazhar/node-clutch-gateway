@@ -1,4 +1,4 @@
-﻿using NodeClutchGateway.Application.Clutch.RideAcceptance;
+﻿using NodeClutchGateway.Application.Clutch.Ride;
 using NodeClutchGateway.Application.Clutch.RideOffer;
 using NodeClutchGateway.Application.Clutch.RideReuqest;
 
@@ -47,7 +47,7 @@ public class RideRequestsController : VersionNeutralApiController
     }
 
     [HttpPost("{rideRequestTransactionId:guid}/rideoffers/{rideOfferTransactionId:guid}/RideAcceptance")]
-    [MustHavePermission(FSHAction.Create, FSHResource.RideAcceptance)]
+    [MustHavePermission(FSHAction.Create, FSHResource.Ride)]
     [OpenApiOperation("Add ride acceptance.", "")]
     public async Task<bool> CreateRideAcceptance(Guid rideRequestTransactionId, Guid rideOfferTransactionId)
     {
@@ -55,6 +55,31 @@ public class RideRequestsController : VersionNeutralApiController
         {
             RideRequestTransactionId = rideRequestTransactionId,
             RideOfferTransactionId = rideOfferTransactionId,
+        });
+    }
+
+    [HttpGet("{rideRequestTransactionId:guid}/rideoffers/{rideOfferTransactionId:guid}/Ride")]
+    [AllowAnonymous]
+    [OpenApiOperation("Add ride acceptance.", "")]
+    public async Task<RideDto> GetRideOfferByTransactionId(Guid rideRequestTransactionId, Guid rideOfferTransactionId)
+    {
+        return await Mediator.Send(new GetRideOfferByTransactionId()
+        {
+            RideRequestTransactionId = rideRequestTransactionId,
+            RideOfferTransactionId = rideOfferTransactionId,
+        });
+    }
+
+    [HttpGet("{rideRequestTransactionId:guid}/rideoffers/{rideOfferTransactionId:guid}/Ride/{rideTransactionId:guid}/ProveArrived")]
+    [MustHavePermission(FSHAction.Prove, FSHResource.Ride)]
+    [OpenApiOperation("Add ride acceptance.", "")]
+    public async Task<bool> ProveArrived(Guid rideRequestTransactionId, Guid rideOfferTransactionId, Guid rideTransactionId)
+    {
+        return await Mediator.Send(new ProveArrived()
+        {
+            RideRequestTransactionId = rideRequestTransactionId,
+            RideOfferTransactionId = rideOfferTransactionId,
+            RideTransactionId = rideTransactionId
         });
     }
 }

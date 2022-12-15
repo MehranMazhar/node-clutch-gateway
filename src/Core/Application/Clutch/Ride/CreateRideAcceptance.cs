@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NodeClutchGateway.Application.Clutch.RideAcceptance;
+namespace NodeClutchGateway.Application.Clutch.Ride;
 public class CreateRideAcceptance : IRequest<bool>
 {
-    public Guid RideRequestTransactionId { get; set; }
-    public Guid RideOfferTransactionId { get; set; }
+    public DefaultIdType RideRequestTransactionId { get; set; }
+    public DefaultIdType RideOfferTransactionId { get; set; }
 }
 
 public class CreateRideAcceptanceHandler : IRequestHandler<CreateRideAcceptance, bool>

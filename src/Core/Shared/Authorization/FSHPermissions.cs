@@ -13,6 +13,7 @@ public static class FSHAction
     public const string Generate = nameof(Generate);
     public const string Clean = nameof(Clean);
     public const string UpgradeSubscription = nameof(UpgradeSubscription);
+    public const string Prove = nameof(Prove);
 }
 
 public static class FSHResource
@@ -28,7 +29,7 @@ public static class FSHResource
     public const string Brands = nameof(Brands);
     public const string RideRequests = nameof(RideRequests);
     public const string RideOffer = nameof(RideOffer);
-    public const string RideAcceptance = nameof(RideAcceptance);
+    public const string Ride = nameof(Ride);
 }
 
 public static class FSHPermissions
@@ -71,7 +72,8 @@ public static class FSHPermissions
 
         new("Create Ride Request", FSHAction.Create, FSHResource.RideRequests, IsPassenger: true),
         new("Create Ride Offer", FSHAction.Create, FSHResource.RideOffer, IsDriver: true),
-        new("Create Ride Acceptance", FSHAction.Create, FSHResource.RideAcceptance, IsPassenger: true),
+        new("Create Ride", FSHAction.Create, FSHResource.Ride, IsPassenger: true),
+        new("Create Ride", FSHAction.Prove, FSHResource.Ride, IsPassenger: true, IsDriver: true),
 
     };
 

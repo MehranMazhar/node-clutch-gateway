@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NodeClutchGateway.Application.Blockchain;
+using NodeClutchGateway.Application.Clutch.Ride;
 using NodeClutchGateway.Application.Clutch.RideOffer;
 using NodeClutchGateway.Application.Clutch.RideReuqest;
 using NodeClutchGateway.Application.Common.Caching;
@@ -128,6 +129,33 @@ public class BlockchainService : IBlockchainService
         AddPendingTransaction(transaction);
     }
 
+    public RideDto GetRide(Guid rideOfferTransactionId)
+    {
+        var rideOffer = GetRideOfferDomainByTransactionId(rideOfferTransactionId);
+        if (rideOffer == null)
+            throw new NotFoundException(string.Format("Ride offer not found."));
+
+        var rideRequest = rideOffer.RideRequest;
+        if (rideRequest == null)
+            throw new NotFoundException(string.Format("Ride request not found."));
+
+        var ride = rideOffer.Ride;
+        if (ride == null)
+            throw new NotFoundException(string.Format("Ride not found."));
+
+        return new RideDto()
+        {
+            TransactionId = ride.TransactionId,
+        };
+    }
+
+    public void ProveArrived(Guid rideTransactionId)
+    {
+        var ride = GetRideDomain(rideTransactionId);
+        if (ride == null)
+            throw new NotFoundException(string.Format("Ride not found."));
+    }
+
     #endregion
 
     #region Private
@@ -200,6 +228,14 @@ public class BlockchainService : IBlockchainService
     private RideRequest? GetRideRequest(Guid transactionId)
     {
         return _context.RideRequests.Where(q => q.TransactionId == transactionId).FirstOrDefault();
+    }
+
+    private Ride? GetRideDomain(Guid rideTransactionId)
+    {
+        return _context.Rides.Where(q => q.TransactionId == rideTransactionId)
+            .Include(c => c.Transaction)
+            .Include(c => c.RideOffer)
+            .FirstOrDefault();
     }
 
     #endregion

@@ -1,5 +1,4 @@
-﻿using NodeClutchGateway.Application.Clutch.RideAcceptance;
-using NodeClutchGateway.Application.Clutch.RideOffer;
+﻿using NodeClutchGateway.Application.Clutch.RideOffer;
 
 namespace NodeClutchGateway.Host.Controllers.Clutch;
 public class RideOffersController : VersionNeutralApiController

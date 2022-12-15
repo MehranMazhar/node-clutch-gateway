@@ -1,4 +1,5 @@
-﻿using NodeClutchGateway.Application.Clutch.RideOffer;
+﻿using NodeClutchGateway.Application.Clutch.Ride;
+using NodeClutchGateway.Application.Clutch.RideOffer;
 using NodeClutchGateway.Application.Clutch.RideReuqest;
 using NodeClutchGateway.Domain.Blockchain;
 
@@ -12,4 +13,5 @@ public interface IBlockchainService : ITransientService
     List<RideOfferDto> GetRideOffers(DefaultIdType rideRequestTransactionId);
     List<RideRequestDto> GetRideRequest();   
     void RideAcceptance(DefaultIdType rideOfferTransactionId);
+    RideDto GetRide(DefaultIdType rideOfferTransactionId);
 }
