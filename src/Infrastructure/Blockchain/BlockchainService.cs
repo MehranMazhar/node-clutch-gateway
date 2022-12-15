@@ -123,7 +123,7 @@ public class BlockchainService : IBlockchainService
         if (rideRequest.Transaction.From != userId.ToString())
             throw new ForbiddenException("You are not authorized to access this resource.");
 
-        var rideOffersRequest = _context.RideRequests.Include(c => c.RideOffers).Where(q => q.Id == rideRequest.Id).ToList();
+        var rideOffersRequest = _context.RideRequests.Include(c => c.RideOffers).ThenInclude(c => c.Ride).Where(q => q.Id == rideRequest.Id).ToList();
         if (rideOffersRequest.SelectMany(s => s.RideOffers).Any(q => q.Ride != null))
             throw new ForbiddenException("Already ride created!");
 
