@@ -1,6 +1,4 @@
-﻿using Ardalis.Specification.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
+﻿using Microsoft.EntityFrameworkCore;
 using NodeClutchGateway.Application.Blockchain;
 using NodeClutchGateway.Application.Clutch.RideOffer;
 using NodeClutchGateway.Application.Clutch.RideReuqest;
@@ -8,9 +6,7 @@ using NodeClutchGateway.Application.Common.Caching;
 using NodeClutchGateway.Application.Common.Exceptions;
 using NodeClutchGateway.Application.Common.Interfaces;
 using NodeClutchGateway.Domain.Blockchain;
-using NodeClutchGateway.Infrastructure.Auth;
 using NodeClutchGateway.Infrastructure.Persistence.Context;
-using RazorEngineCore;
 
 namespace NodeClutchGateway.Infrastructure.Blockchain;
 public class BlockchainService : IBlockchainService
