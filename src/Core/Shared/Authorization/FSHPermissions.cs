@@ -14,6 +14,7 @@ public static class FSHAction
     public const string Clean = nameof(Clean);
     public const string UpgradeSubscription = nameof(UpgradeSubscription);
     public const string Prove = nameof(Prove);
+    public const string Complain = nameof(Complain);
 }
 
 public static class FSHResource
@@ -74,6 +75,7 @@ public static class FSHPermissions
         new("Create Ride Offer", FSHAction.Create, FSHResource.RideOffer, IsDriver: true),
         new("Create Ride", FSHAction.Create, FSHResource.Ride, IsPassenger: true),
         new("Create Ride", FSHAction.Prove, FSHResource.Ride, IsPassenger: true, IsDriver: true),
+        new("Create Ride", FSHAction.Complain, FSHResource.Ride, IsPassenger: true, IsDriver: true),
 
     };
 

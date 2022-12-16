@@ -82,4 +82,17 @@ public class RideRequestsController : VersionNeutralApiController
             RideTransactionId = rideTransactionId
         });
     }
+
+    [HttpPost("{rideRequestTransactionId:guid}/rideoffers/{rideOfferTransactionId:guid}/Ride/{rideTransactionId:guid}/ComplainArrived")]
+    [MustHavePermission(FSHAction.Complain, FSHResource.Ride)]
+    [OpenApiOperation("Complain Arrived by driver and passenger.", "")]
+    public async Task<bool> ComplainArrived(Guid rideRequestTransactionId, Guid rideOfferTransactionId, Guid rideTransactionId)
+    {
+        return await Mediator.Send(new ComplainArrivedRequest()
+        {
+            RideRequestTransactionId = rideRequestTransactionId,
+            RideOfferTransactionId = rideOfferTransactionId,
+            RideTransactionId = rideTransactionId
+        });
+    }
 }
