@@ -199,9 +199,9 @@ public class BlockchainService : IBlockchainService
             throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
         }
 
-        var proveArrived = ride.ProveArriveds.First();
-        if (proveArrived.Transaction.From == userId)
-            throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
+        //var proveArrived = ride.ProveArriveds.First();
+        //if (proveArrived.Transaction.From == userId)
+        //    throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
 
         if (ride.ComplainArrived != null)
             throw new ForbiddenException(string.Format("Complain Arrived already submited."));
