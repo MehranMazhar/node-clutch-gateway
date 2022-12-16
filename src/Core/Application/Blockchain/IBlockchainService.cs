@@ -15,4 +15,5 @@ public interface IBlockchainService : ITransientService
     void RideAcceptance(DefaultIdType rideOfferTransactionId);
     RideDto GetRide(DefaultIdType rideOfferTransactionId);
     void ProveArrived(DefaultIdType rideTransactionId);
+    void ComplainArrived(DefaultIdType rideTransactionId);
 }
