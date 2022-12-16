@@ -75,7 +75,7 @@ public class RideRequestsController : VersionNeutralApiController
     [OpenApiOperation("Add ride acceptance.", "")]
     public async Task<bool> ProveArrived(Guid rideRequestTransactionId, Guid rideOfferTransactionId, Guid rideTransactionId)
     {
-        return await Mediator.Send(new ProveArrived()
+        return await Mediator.Send(new ProveArrivedRequest()
         {
             RideRequestTransactionId = rideRequestTransactionId,
             RideOfferTransactionId = rideOfferTransactionId,

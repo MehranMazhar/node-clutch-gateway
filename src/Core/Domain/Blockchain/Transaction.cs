@@ -11,6 +11,7 @@ public class Transaction : AuditableEntity, IAggregateRoot
     public virtual RideRequest RideRequest { get; set; } = default!;
     public virtual RideOffer RideOffer { get; set; } = default!;
     public virtual Ride Ride { get; set; } = default!;
+    public virtual ProveArrived ProveArrived { get; set; } = default!;
 
     public Transaction(string from, string to, RideRequest rideRequest)
     {
@@ -31,6 +32,13 @@ public class Transaction : AuditableEntity, IAggregateRoot
         From = from;
         To = to;
         Ride = ride;
+    }
+
+    public Transaction(string from, string to, ProveArrived proveArrived)
+    {
+        From = from;
+        To = to;
+        ProveArrived = proveArrived;
     }
 
     public Transaction()

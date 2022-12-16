@@ -23,6 +23,7 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<RideRequest> RideRequests => Set<RideRequest>();
     public DbSet<RideOffer> RideOffers => Set<RideOffer>();
     public DbSet<Ride> Rides => Set<Ride>();
+    public DbSet<ProveArrived> ProveArriveds => Set<ProveArrived>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

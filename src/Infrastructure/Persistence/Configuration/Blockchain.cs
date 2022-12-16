@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NodeClutchGateway.Domain.Blockchain;
 
@@ -60,6 +61,25 @@ public class RideConfig : IEntityTypeConfiguration<Ride>
         builder.HasOne(a => a.Transaction)
          .WithOne(a => a.Ride)
          .HasForeignKey<Ride>(a => a.TransactionId)
+         .OnDelete(DeleteBehavior.NoAction);
+    }
+}
+
+public class ProveArrivedConfig : IEntityTypeConfiguration<ProveArrived>
+{
+    public void Configure(EntityTypeBuilder<ProveArrived> builder)
+    {
+        builder
+           .ToTable("ProveArriveds", SchemaNames.Blockchain);
+
+        builder.HasOne(a => a.Ride)
+         .WithMany(a => a.ProveArriveds)
+         .HasForeignKey(a => a.RideId)
+         .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(a => a.Transaction)
+         .WithOne(a => a.ProveArrived)
+         .HasForeignKey<ProveArrived>(a => a.TransactionId)
          .OnDelete(DeleteBehavior.NoAction);
     }
 }
