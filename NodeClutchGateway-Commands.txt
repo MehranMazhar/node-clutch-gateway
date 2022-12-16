@@ -1,0 +1,3 @@
+Add-Migration ComplainArrived -Context ApplicationDbContext -O Migrations/Application -Project Migrators.MSSQL
+Remove-Migration -Context ApplicationDbContext -Project Migrators.MSSQL
+Update-Database -Context ApplicationDbContext 
