@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.EntityFrameworkCore;
 using NodeClutchGateway.Application.Blockchain;
 using NodeClutchGateway.Application.Clutch.Ride;
 using NodeClutchGateway.Application.Clutch.RideOffer;
@@ -155,11 +156,25 @@ public class BlockchainService : IBlockchainService
         if (ride == null)
             throw new NotFoundException(string.Format("Ride not found."));
 
-        bool hasProveArrived = ride.ProveArriveds.Count > 0;
-        if (hasProveArrived)
-            throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
+        string userId = _currentUser.GetUserId().ToString();
+        string driver = ride.RideOffer.Transaction.From;
+        string passenger = ride.RideOffer.RideRequest.Transaction.From;
 
-        var userId = _currentUser.GetUserId().ToString();
+        if (userId != driver && userId != passenger)
+            throw new ForbiddenException(string.Format("Not alowed by sender!:{}", userId));
+
+        int proveArrivedCount = ride.ProveArriveds.Count(q => q.Transaction.From == userId);
+        if (driver == passenger)
+        {
+            if (proveArrivedCount == 2)
+                throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
+        }
+        else
+        {
+            if (proveArrivedCount == 1)
+                throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
+        }
+
         var proveAraived = new ProveArrived(ride.Id);
         var transaction = new Transaction(userId, userId, proveAraived);
         AddPendingTransaction(transaction);
@@ -243,8 +258,9 @@ public class BlockchainService : IBlockchainService
     {
         return _context.Rides.Where(q => q.TransactionId == rideTransactionId)
             .Include(c => c.Transaction)
-            .Include(c => c.RideOffer)
-            .Include(c => c.ProveArriveds)
+            .Include(c => c.RideOffer).ThenInclude(c => c.Transaction)
+            .Include(c => c.RideOffer).ThenInclude(c => c.RideRequest).ThenInclude(c => c.Transaction)
+            .Include(c => c.ProveArriveds).ThenInclude(c => c.Transaction)
             .FirstOrDefault();
     }
 
