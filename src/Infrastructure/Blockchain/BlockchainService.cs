@@ -154,6 +154,15 @@ public class BlockchainService : IBlockchainService
         var ride = GetRideDomain(rideTransactionId);
         if (ride == null)
             throw new NotFoundException(string.Format("Ride not found."));
+
+        bool hasProveArrived = ride.ProveArriveds.Count > 0;
+        if (hasProveArrived)
+            throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
+
+        var userId = _currentUser.GetUserId().ToString();
+        var proveAraived = new ProveArrived(ride.Id);
+        var transaction = new Transaction(userId, userId, proveAraived);
+        AddPendingTransaction(transaction);
     }
 
     #endregion
@@ -235,6 +244,7 @@ public class BlockchainService : IBlockchainService
         return _context.Rides.Where(q => q.TransactionId == rideTransactionId)
             .Include(c => c.Transaction)
             .Include(c => c.RideOffer)
+            .Include(c => c.ProveArriveds)
             .FirstOrDefault();
     }
 

@@ -19,6 +19,7 @@ public class ProveArrivedRequestHandler : IRequestHandler<ProveArrivedRequest, b
 
     public Task<bool> Handle(ProveArrivedRequest request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        _blockchainService.ProveArrived(rideTransactionId: request.RideTransactionId);
+        return Task.FromResult(true);
     }
 }

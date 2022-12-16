@@ -70,9 +70,9 @@ public class RideRequestsController : VersionNeutralApiController
         });
     }
 
-    [HttpGet("{rideRequestTransactionId:guid}/rideoffers/{rideOfferTransactionId:guid}/Ride/{rideTransactionId:guid}/ProveArrived")]
+    [HttpPost("{rideRequestTransactionId:guid}/rideoffers/{rideOfferTransactionId:guid}/Ride/{rideTransactionId:guid}/ProveArrived")]
     [MustHavePermission(FSHAction.Prove, FSHResource.Ride)]
-    [OpenApiOperation("Add ride acceptance.", "")]
+    [OpenApiOperation("Prove Arrived by driver and passenger.", "")]
     public async Task<bool> ProveArrived(Guid rideRequestTransactionId, Guid rideOfferTransactionId, Guid rideTransactionId)
     {
         return await Mediator.Send(new ProveArrivedRequest()
