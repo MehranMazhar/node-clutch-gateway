@@ -164,20 +164,45 @@ public class BlockchainService : IBlockchainService
             throw new ForbiddenException(string.Format("Not alowed by sender!:{}", userId));
 
         int proveArrivedCount = ride.ProveArriveds.Count(q => q.Transaction.From == userId);
-        if (driver == passenger)
+        if (driver != passenger)
         {
-            if (proveArrivedCount == 2)
+            if (proveArrivedCount == 1)
                 throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
         }
         else
         {
-            if (proveArrivedCount == 1)
+            if (proveArrivedCount == 2)
                 throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
         }
 
         var proveAraived = new ProveArrived(ride.Id);
         var transaction = new Transaction(userId, userId, proveAraived);
         AddPendingTransaction(transaction);
+    }
+
+    public void ComplainArrived(Guid rideTransactionId)
+    {
+        var ride = GetRideDomain(rideTransactionId);
+        if (ride == null)
+            throw new NotFoundException(string.Format("Ride not found."));
+
+        string userId = _currentUser.GetUserId().ToString();
+        string driver = ride.RideOffer.Transaction.From;
+        string passenger = ride.RideOffer.RideRequest.Transaction.From;
+
+        if (userId != driver && userId != passenger)
+            throw new ForbiddenException(string.Format("Not alowed by sender!:{}", userId));
+
+        int proveArrivedCount = ride.ProveArriveds.Count();
+        if (proveArrivedCount != 1)
+        {
+            throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
+        }
+
+        var proveArrived = ride.ProveArriveds.First();
+        if (proveArrived.Transaction.From == userId)
+            throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
+
     }
 
     #endregion
