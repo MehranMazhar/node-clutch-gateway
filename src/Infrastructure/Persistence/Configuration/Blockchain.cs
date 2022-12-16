@@ -83,3 +83,12 @@ public class ProveArrivedConfig : IEntityTypeConfiguration<ProveArrived>
          .OnDelete(DeleteBehavior.NoAction);
     }
 }
+
+public class ComplainArrivedConfig : IEntityTypeConfiguration<ComplainArrived>
+{
+    public void Configure(EntityTypeBuilder<ComplainArrived> builder)
+    {
+        builder
+           .ToTable("ComplainArriveds", SchemaNames.Blockchain);
+    }
+}

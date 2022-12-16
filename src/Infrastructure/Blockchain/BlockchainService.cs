@@ -203,6 +203,9 @@ public class BlockchainService : IBlockchainService
         if (proveArrived.Transaction.From == userId)
             throw new ForbiddenException(string.Format("Prove Arrived has been submited."));
 
+        var complainArrived = new ComplainArrived(ride.Id);
+        var transaction = new Transaction(userId, userId, complainArrived);
+        AddPendingTransaction(transaction);
     }
 
     #endregion
@@ -282,6 +285,7 @@ public class BlockchainService : IBlockchainService
     private Ride? GetRideDomain(Guid rideTransactionId)
     {
         return _context.Rides.Where(q => q.TransactionId == rideTransactionId)
+            .Include(c => c.ComplainArrived)
             .Include(c => c.Transaction)
             .Include(c => c.RideOffer).ThenInclude(c => c.Transaction)
             .Include(c => c.RideOffer).ThenInclude(c => c.RideRequest).ThenInclude(c => c.Transaction)

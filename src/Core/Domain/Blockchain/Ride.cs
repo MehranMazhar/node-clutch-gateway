@@ -13,6 +13,7 @@ public class Ride : AuditableEntity, IAggregateRoot
     public Guid RideOfferId { get; set; }
     public virtual RideOffer RideOffer { get; set; } = default!;
 
+    public virtual ComplainArrived ComplainArrived { get; set; }
     public virtual ICollection<ProveArrived> ProveArriveds { get; set; }
 
 
